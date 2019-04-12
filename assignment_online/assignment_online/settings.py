@@ -27,10 +27,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+TIME_ZONE = 'Asia/Bangkok'
 
 # Application definition
 
 INSTALLED_APPS = [
+    'member.apps.MemberConfig',
+    'assignment.apps.AssignmentConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
