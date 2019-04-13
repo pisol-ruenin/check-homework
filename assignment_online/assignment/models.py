@@ -104,3 +104,8 @@ class StudentMatchingAnswer(models.Model):
     student = models.ForeignKey(Student,on_delete=models.CASCADE)
     class Meta:
         unique_together = (("question","student","answer_item"))
+
+class StudentScore(models.Model):
+    student = models.ForeignKey(Student,on_delete=models.CASCADE)
+    question = models.ForeignKey(Question,on_delete=models.CASCADE)
+    score = models.FloatField()
