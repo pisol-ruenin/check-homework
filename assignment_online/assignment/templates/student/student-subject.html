@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block body %}
+    <div class="container con-dashboard">
+        <h1>204111</h1>
+        <h2>Introduction Computer Science</h2>
+        <br>
+        <h4>Assignment List</h4>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>Start-Date</th>
+                <th>End-Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            <tr>
+                <td>204111 Assignment #1</td>
+                <td>07-01-2019</td>
+                <td>15-01-2019</td>
+                <td>checked</td>
+                <td>View Score</td>
+            </tr>
+            <tr>
+                <td>204111 Assignment #2</td>
+                <td>20-03-2019</td>
+                <td>21-04-2019</td>
+                <td>subbmited</td>
+                <td>Edit Answer</td>
+            </tr>
+            <tr>
+                <td>204111 Assignment #3</td>
+                <td>20-04-2019</td>
+                <td>30-04-2019</td>
+                <td>don't subbmited</td>
+                <td>Answer Assignment</td>
+            </tr>
+        </table>
+    </div>
+    {% endblock %}
