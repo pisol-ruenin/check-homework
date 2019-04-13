@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block body %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/check-homework.css">
-</head>
-
-<body>
     <div class="container">
         <div class="box-login">
             <form action="/action_page.php">
@@ -31,9 +22,5 @@
             <p style="float:right;">have an account? <a href="signin.html">sign in</a></p>
         </div>
     </div>
-    <script src="js/jquery-3.3.1.slim.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.js"></script>
-</body>
-
-</html>
+    
+{% endblock %}
