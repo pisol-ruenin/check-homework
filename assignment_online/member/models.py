@@ -9,7 +9,7 @@ class Student(models.Model):
     student_code = models.CharField(max_length=9)
 
     class Meta:
-        unique_together = (("user","student_id"))
+        unique_together = (("user","student_code"))
 
 class Teacher(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)

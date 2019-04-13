@@ -11,7 +11,7 @@ class Lecturer(models.Model):
     subject = models.ForeignKey(Subject,on_delete=models.CASCADE)
     lecturer = models.ForeignKey(Teacher,on_delete=models.CASCADE)
     class Meta:
-        unique_together = (("subject_code","lecturer"))
+        unique_together = (("subject","lecturer"))
 
 class MemberSection(models.Model):
     subject = models.ForeignKey(Subject,on_delete=models.CASCADE)
@@ -60,7 +60,7 @@ class OpenEndedKeywords(models.Model):
     question = models.ForeignKey(Question,on_delete=models.CASCADE)
     keyword = models.CharField(max_length=20)
     class Meta:
-        unique_together = (("no","keyword"))
+        unique_together = (("question","keyword"))
 
 class Matching(models.Model):
     question = models.ForeignKey(Question,on_delete=models.CASCADE)
