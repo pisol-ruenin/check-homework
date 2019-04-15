@@ -1,0 +1,30 @@
+<style type="text/css">
+    .login-box {
+        margin: 50px 0px 0px 20px;
+        width: 300px;
+        max-width: 100%;
+    }
+</style>
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+<link rel="stylesheet" href="{% static 'css/check-homework.css' %}">
+{% block body %}
+<div class="container">
+    <div class="login-form">
+        <h1 class="text-center">CS CMU Online Assignment</h1>
+        <br>
+        <form method="post" id="login">
+        {% csrf_token %}
+        Email:
+        <input class="form-control" id="id_username" name="username" type="text"/> 
+        Password:
+        <input class="form-control" id="id_password" name="password" type="password" /> 
+        {{ form.errors }}
+        <div><br></div>
+        <button class="btn btn-primary btn-block" type="submit">Login</button>
+        </form>
+<!-- 
+        <p>Forgot password?</p> -->
+    </div>
+</div>
+{% endblock %}

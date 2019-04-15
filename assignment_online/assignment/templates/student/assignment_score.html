@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block body %}
+{% load get_index %}
+<div class="container con-dashboard">
+    {{ assignment.name }}
+    {{ score }}/{{ full_score }}
+    <div class="form-group">
+        {% for q in result %}
+        {% ifequal q.0.qtype 'O' %}
+        <div class="card" style="width: 95%">
+            <div class="card-body">
+                <h5 class="card-title">{{ q.0.no }}.{{ q.0.topic }}</h5>
+                <textarea class="form-control" name="" id="q1" cols="30" rows="10" disabled>{{ q.1.answer }}</textarea>
+                Answer : {% for a in q.2 %}{{ a.keyword }}, {% endfor %}
+            </div>
+        </div>
+
+        <br>
+        {% endifequal %}
+        {% ifequal q.0.qtype 'C' %}
+        <div class="card" style="width: 95%">
+            <div class="card-body">
+                <h5 class="card-title">{{ q.0.no }}.{{ q.0.topic }}</h5>
+                <!-- <p class="card-text">hint: โครงสร้าง ลักษณะภาษา ประสิทธิภาพ ฯลฯ</p> -->
+                {% for c in q.2 %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="{{ forloop.encounter }}" disabled {% ifequal q.1.answer forloop.counter %}checked{% endifequal %}>
+                    <label class="form-check-label">
+                        {{ forloop.counter }}. {{ c.txt }}
+                    </label>
+                </div>
+                {% endfor %}
+                Answer: {{ q.3.no }}
+            </div>
+        </div>
+        <br>
+        {% endifequal %}
+        {% ifequal q.0.qtype 'M' %}
+        <div class="card" style="width: 95%">
+            <div class="card-body">
+                <h5 class="card-title">{{ q.0.no }}.{{ q.0.topic }}</h5>
+                {% for m in q.4 %}
+                <div class="row">
+                    <div class="col-sm-1"><input class="form-control" name="" id="q3a" value={{ q.1|get_answer:forloop.counter0 }} disabled></div>
+                    <div class="col-sm-5">{{ forloop.counter }}. {{ q.2|get_at_index:forloop.counter0 }}</div>
+                    <div class="col-sm-6">{{ forloop.counter }}. {{ q.3|get_at_index:forloop.counter0 }}</div>
+                    <div class="container">Answer : {{ q.4|get_choice:forloop.counter0 }}</div>
+                </div><br>
+                {% endfor %}
+            </div>
+        </div>
+        <br>
+        {% endifequal %}
+        {% endfor %}
+    </div>
+    <br>
+</div>
+{% endblock %}
