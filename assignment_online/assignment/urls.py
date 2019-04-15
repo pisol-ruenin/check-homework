@@ -10,7 +10,9 @@ urlpatterns = [
     url(r'^teacher_dashboard$', views.teacher_dashboard, name='teacher_dashboard'),
     # path('test/',views.Test.as_view(),name='test'),
     path('<int:subject>/score/<int:assignment>/',
-         views.AssignmentScore.as_view(), name='assignment_score')
+         views.AssignmentScore.as_view(), name='assignment_score'),
+    path('<int:subject>/score/<int:assignment>/<int:std_code>/',
+         views.StudentAssignmentScore.as_view(), name='student_assignment_score')
     # url(r'^signin$', views.signin, name='signin'),
     # url(r'^signup$', views.signup, name='signup')
 ]

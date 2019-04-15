@@ -212,3 +212,15 @@ class StudentOpenEndedScore(models.Model):
 
     def __str__(self):
         return self.student.code + '-' + self.question.topic
+
+class StudentDoAssignment(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
+    finish = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = (("student","assignment"))
+    
+    def __str__(self):
+        return self.student.code + "-" + self.assignment.name
+

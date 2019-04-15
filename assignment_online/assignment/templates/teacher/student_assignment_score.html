@@ -42,7 +42,7 @@
                 <h5 class="card-title">{{ q.0.no }}.{{ q.0.topic }}</h5>
                 {% for m in q.4 %}
                 <div class="row">
-                    <div class="col-sm-1"><input class="form-control" name="" id="q3a" value={{ q.1|get_answer:forloop.counter0 }} disabled></div>
+                    <div class="col-sm-1"><input class="form-control" name="" id="q3a" value={{ m.choice_no }} disabled></div>
                     <div class="col-sm-5">{{ forloop.counter }}. {{ q.2|get_at_index:forloop.counter0 }}</div>
                     <div class="col-sm-6">{{ forloop.counter }}. {{ q.3|get_at_index:forloop.counter0 }}</div>
                     <div class="container">Answer : {{ q.4|get_choice:forloop.counter0 }}</div>
