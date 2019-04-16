@@ -8,6 +8,5 @@ urlpatterns = [
     url(r'^do_assignment$', views.do_assignment, name='do_assignment'),
     url(r'^create_assignment$', views.create_assignment, name='create_assignment'),
     url(r'^teacher_dashboard$', views.teacher_dashboard, name='teacher_dashboard'),
-    url(r'^signin$', views.signin, name='signin'),
-    url(r'^signup$', views.signup, name='signup')
+    
 ]

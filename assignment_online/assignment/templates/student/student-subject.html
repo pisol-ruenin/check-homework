@@ -1,20 +1,23 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block body %}
+
     <div class="container con-dashboard">
-        <h1>204111</h1>
+        <h1>204321</h1>
         <h2>Introduction Computer Science</h2>
         <br>
         <h4>Assignment List</h4>
+       
         <table class="table">
-            <tr>
-                <th>Name</th>
-                <th>Start-Date</th>
-                <th>End-Date</th>
+            {% for ass in all_assignment %}
+            <tr>            
+                <th>{{ass.name}}</th>
+                <th>ass.start_date</th>
+                <th>ass.End-Date</th>
                 <th>Status</th>
                 <th>Action</th>
             </tr>
-            <tr>
+            <!-- <tr>
                 <td>204111 Assignment #1</td>
                 <td>07-01-2019</td>
                 <td>15-01-2019</td>
@@ -34,7 +37,9 @@
                 <td>30-04-2019</td>
                 <td>don't subbmited</td>
                 <td>Answer Assignment</td>
-            </tr>
+            </tr> -->
+            {% endfor %}
         </table>
     </div>
+
     {% endblock %}

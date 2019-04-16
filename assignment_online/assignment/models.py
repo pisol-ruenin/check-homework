@@ -7,17 +7,22 @@ class Subject(models.Model):
     subject_code = models.CharField(max_length=6,primary_key=True)
     no_section = models.IntegerField()
 
+    def __str__(self):
+        return self.subject_code
+
 class Lecturer(models.Model):
     subject = models.ForeignKey(Subject,on_delete=models.CASCADE)
     lecturer = models.ForeignKey(Teacher,on_delete=models.CASCADE)
     class Meta:
         unique_together = (("subject","lecturer"))
-
+    
 class MemberSection(models.Model):
     subject = models.ForeignKey(Subject,on_delete=models.CASCADE)
     student = models.ForeignKey(Student,on_delete=models.CASCADE)
     class Meta:
         unique_together = (("subject","student"))
+
+
 
 class Assignment(models.Model):
     subject = models.ForeignKey(Subject,on_delete=models.CASCADE)

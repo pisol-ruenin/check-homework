@@ -10,6 +10,9 @@ class Student(models.Model):
 
     class Meta:
         unique_together = (("user","student_code"))
+        
 
 class Teacher(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
+  
+    
