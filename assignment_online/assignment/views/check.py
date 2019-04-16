@@ -1,7 +1,15 @@
 from django.shortcuts import render
 from django.views import generic
 from ..models import *
+from django.http import JsonResponse
+from django.contrib.auth import get_user_model
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from math import floor
+import numpy as np
+
+User = get_user_model()
 
 class AssignmentScore(generic.TemplateView):
     template_name = 'student/assignment_score.html'
@@ -61,46 +69,160 @@ class StudentAssignmentScore(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super(StudentAssignmentScore, self).get_context_data(**kwargs)
         result = list()
+        do = StudentDoAssignment.objects.get(student__code=self.kwargs['std_code'],assignment=self.kwargs['assignment'])
         question = Question.objects.filter(
             assignment__subject__subject_code=self.kwargs['subject'],assignment=self.kwargs['assignment'])
         context['question'] = question
         for i in question:
             if i.qtype == 'O':
-                answer = StudentOpenEndedAnswer.objects.get(question=i, student__user=self.request.user)
+                answer = None
+                if do.finish:
+                    answer = StudentOpenEndedAnswer.objects.get(question=i, student__code=self.kwargs['std_code'])
                 real_answer = OpenEndedKeywords.objects.filter(question=i)
                 result.append([i,answer,real_answer])
             elif i.qtype == 'C':
-                answer = StudentChoiceAnswer.objects.get(question=i, student__user=self.request.user)
+                answer = None
+                if do.finish:
+                    answer = StudentChoiceAnswer.objects.get(question=i, student__code=self.kwargs['std_code'])
                 choice = Choice.objects.filter(question=i)
                 real_answer = ChoiceAnswer.objects.get(question=i)
                 result.append([i,answer,choice,real_answer])
             elif i.qtype == 'M':
-                answer = StudentMatchingAnswer.objects.filter(question=i, student__user=self.request.user)
+                answer = None
+                if do.finish:
+                    answer = StudentMatchingAnswer.objects.filter(question=i, student__code=self.kwargs['std_code'])
                 item = Matching.objects.filter(question=i)
                 choice = MatchingChoice.objects.filter(question=i)
                 real_answer = MatchingAnswer.objects.filter(question=i)
                 result.append([i,answer,item,choice,real_answer])
-        context['result'] = result
+            context['result'] = result
+
+            if do.finish:
+                score_choice = StudentChoiceScore.objects.filter(question__assignment=self.kwargs['assignment'])
+                score_matching = StudentMatchingScore.objects.filter(question__assignment=self.kwargs['assignment'])
+                score_open = StudentOpenEndedScore.objects.filter(question__assignment=self.kwargs['assignment'])
+                score = sum([i.score for i in score_choice])
+                score += sum([i.score for i in score_matching])
+                score += sum([i.score for i in score_open])
+            else:
+                score = 0
+
+            
         context['assignment'] = Assignment.objects.get(pk=self.kwargs['assignment'])
-        score_choice = StudentChoiceScore.objects.filter(question__assignment=self.kwargs['assignment'])
-        score_matching = StudentMatchingScore.objects.filter(question__assignment=self.kwargs['assignment'])
-        score_open = StudentOpenEndedScore.objects.filter(question__assignment=self.kwargs['assignment'])
-        score = sum([i.score for i in score_choice])
-        score += sum([i.score for i in score_matching])
-        score += sum([i.score for i in score_open])
+        
         print(score)
         context['score'] = score
         context['full_score'] = sum([i.score for i in question])
         return context
 
+class AssignmentReport(generic.TemplateView):
+    template_name = 'teacher/report_assignment.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(AssignmentReport, self).get_context_data(**kwargs)
+        context['subject'] = self.kwargs['subject']
+        context['assignment'] = self.kwargs['assignment']
+        assignment = Assignment.objects.get(pk=self.kwargs['assignment'])
+        context['data'] = assignment
+        do = StudentDoAssignment.objects.filter(assignment=self.kwargs['assignment'])
+        all_score=list()
+        for i in do:
+            if i.finish:
+                score_choice = StudentChoiceScore.objects.filter(question__assignment=self.kwargs['assignment'],student=i.student)
+                score_matching = StudentMatchingScore.objects.filter(question__assignment=self.kwargs['assignment'],student=i.student)
+                score_open = StudentOpenEndedScore.objects.filter(question__assignment=self.kwargs['assignment'],student=i.student)
+                score = sum([i.score for i in score_choice])
+                score += sum([i.score for i in score_matching])
+                score += sum([i.score for i in score_open])
+            else:
+                score = 0
+            all_score.append(score)
+        all_score = np.array(all_score)
+        context['mean'] = all_score.mean()
+        context['std'] = all_score.std()
+        context['max'] = all_score.max()
+        context['min'] = all_score.min()
+        
+        return context
 
+class ChartScoreAssignment(APIView):
+    authentication_classes = []
+    permission_classes = []
 
-# class Test(generic.DeleteView):
-#     def dispatch(self,*args,**kwargs):
-#         answer = StudentChoiceAnswer.objects.filter(question__assignment__end_date='2019-04-17')
-#         if len(answer):
-#             for i in answer:
-#                 real_answer = ChoiceAnswer.objects.get(question=i.question)
-#                 if i.answer == real_answer.no:
-#                     print(i.answer)
+    def get(self, request, *args, **kwargs):
+        do = StudentDoAssignment.objects.filter(assignment=self.kwargs['assignment'])
+        a = Assignment.objects.get(pk=self.kwargs['assignment'])
+        item = [0 for i in range(int(a.score))]
+        for i in do:
+            if i.finish:
+                score_choice = StudentChoiceScore.objects.filter(question__assignment=self.kwargs['assignment'],student=i.student)
+                score_matching = StudentMatchingScore.objects.filter(question__assignment=self.kwargs['assignment'],student=i.student)
+                score_open = StudentOpenEndedScore.objects.filter(question__assignment=self.kwargs['assignment'],student=i.student)
+                score = sum([i.score for i in score_choice])
+                score += sum([i.score for i in score_matching])
+                score += sum([i.score for i in score_open])
+            else:
+                score = 0
+            item[floor(score)] += 1
+        labels = [i for i in range(int(a.score)+1)]
+        default_items = item
+        data = {
+            "labels":labels,
+            "default":default_items,
+        }
+        return Response(data)
+
+class SubjectReport(generic.TemplateView):
+    template_name = 'teacher/report_subject.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SubjectReport, self).get_context_data(**kwargs)
+        context['subject'] = self.kwargs['subject']
+        do = StudentDoAssignment.objects.filter(assignment__subject__subject_code=self.kwargs['subject'])
+        all_score=list()
+        for i in do:
+            if i.finish:
+                score_choice = StudentChoiceScore.objects.filter(student=i.student)
+                score_matching = StudentMatchingScore.objects.filter(student=i.student)
+                score_open = StudentOpenEndedScore.objects.filter(student=i.student)
+                score = sum([i.score for i in score_choice])
+                score += sum([i.score for i in score_matching])
+                score += sum([i.score for i in score_open])
+            else:
+                score = 0
+            all_score.append(score)
+        all_score = np.array(all_score)
+        context['mean'] = all_score.mean()
+        context['std'] = all_score.std()
+        context['max'] = all_score.max()
+        context['min'] = all_score.min()
+        
+        return context
+
+class ChartScoreSubject(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, *args, **kwargs):
+        do = StudentDoAssignment.objects.filter(assignment__subject__subject_code=self.kwargs['subject'])
+        a = Assignment.objects.all()
+        a_score = sum([i.score for i in a])
+        item = [0 for i in range(int(a_score))]
+        for i in do:
+            if i.finish:
+                score_choice = StudentChoiceScore.objects.filter(student=i.student)
+                score_matching = StudentMatchingScore.objects.filter(student=i.student)
+                score_open = StudentOpenEndedScore.objects.filter(student=i.student)
+                score = sum([i.score for i in score_choice])
+                score += sum([i.score for i in score_matching])
+                score += sum([i.score for i in score_open])
+            else:
+                score = 0
+            item[floor(score)] += 1
+        labels = [i for i in range(int(a_score)+1)]
+        default_items = item
+        data = {
+            "labels":labels,
+            "default":default_items,
+        }
+        return Response(data)

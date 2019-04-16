@@ -43,6 +43,7 @@ class Assignment(models.Model):
     name = models.CharField(max_length=50)
     publish = models.BooleanField(default=False)
     check = models.BooleanField(default=False)
+    score = models.FloatField()
 
     def __str__(self):
         return self.subject.subject_code + '-' + self.name
@@ -223,4 +224,3 @@ class StudentDoAssignment(models.Model):
     
     def __str__(self):
         return self.student.code + "-" + self.assignment.name
-
