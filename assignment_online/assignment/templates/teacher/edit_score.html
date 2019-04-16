@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block body %}
+<form class="controls" method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            {{ field.label_tag }}
+            {{ field }}
+            {{ field.errors }}
+        {% endfor %}
+        <br>
+        <button class="button" type="submit">Submit</button>
+        <button class="button" type="reset">Reset</button>
+</form>
+{% endblock %}

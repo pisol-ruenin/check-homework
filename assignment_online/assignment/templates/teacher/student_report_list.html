@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block body %}
+    <div class="container con-dashboard">
+        <h1>{{ data.0.assignment.subject.subject_code }}</h1>
+        <h2>{{ data.0.assignment.subject.name }}</h2>
+        <h2>{{ data.0.assignment.name }}</h2>
+        <br>
+        <h4>Student List</h4>
+        <table class="table">
+            <tr>
+                <th>No</th>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+            {% for std in data %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{std.student.code}}</td>
+                <td>{{std.student.user.first_name}} {{std.student.user.last_name}}</td>
+                <td><a href={% url 'assignment:student_assignment_score' data.0.assignment.subject.subject_code data.0.assignment.pk std.student.code %}><button class="btn btn-primary">View</button></a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endblock %}

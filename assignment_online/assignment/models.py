@@ -202,7 +202,6 @@ class StudentMatchingScore(models.Model):
     def __str__(self):
         return self.student.code + '-' + self.question.topic
 
-
 class StudentOpenEndedScore(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
