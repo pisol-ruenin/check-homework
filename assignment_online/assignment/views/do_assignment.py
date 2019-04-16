@@ -8,7 +8,7 @@ from ..models import *
 
 
 def student_dashboard(request):
-
+    template_name = 'student/student-dashboard.html'
     all_subjects = Subject.objects.all() 
     member =  MemberSection.objects.all() 
     # Subject
