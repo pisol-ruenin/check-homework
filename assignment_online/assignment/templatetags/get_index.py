@@ -15,3 +15,7 @@ def get_answer(list,index):
     if list is None:
         return 'X'
     return list[index].answer_choice
+
+@register.filter
+def get_pk(list,index):
+    return list[index].pk
