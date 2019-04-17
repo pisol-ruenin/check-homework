@@ -34,6 +34,8 @@ TIME_ZONE = 'Asia/Bangkok'
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
+    'django_cron',
     'member.apps.MemberConfig',
     'assignment.apps.AssignmentConfig',
     'django.contrib.admin',
@@ -42,6 +44,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+]
+
+CRON_CLASSES = [
+    "assignment.control.MyCronJob",
+    # ...
 ]
 
 MIDDLEWARE = [
@@ -68,6 +75,10 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries':{
+            'my_templatetag': 'assignment.templatetags.get_index',
+
+            }
         },
     },
 ]

@@ -3,28 +3,34 @@
 {% block body %}
 
     <div class="container con-dashboard">
-        <h1>204321</h1>
-        <h2>Introduction Computer Science</h2>
+        <h1>{{ sub.subject_code }}</h1>
+        <h2>{{ sub.name }} </h2>
         <br>
+
         <h4>Assignment List</h4>
-       
         <table class="table">
-            {% for ass in all_assignment %}
-            <tr>            
-                <th>{{ass.name}}</th>
-                <th>ass.start_date</th>
-                <th>ass.End-Date</th>
+            <tr>
+                <th>Name</th>
+                <th>Start-Date</th>
+                <th>End-Date</th>
                 <th>Status</th>
                 <th>Action</th>
             </tr>
-            <!-- <tr>
-                <td>204111 Assignment #1</td>
-                <td>07-01-2019</td>
-                <td>15-01-2019</td>
-                <td>checked</td>
-                <td>View Score</td>
-            </tr>
+            {% for a in assignment %}
             <tr>
+                <td>{{ a.name }}</td>
+                <td>{{ a.start_date }}</td>
+                <td>{{ a.end_date }}</td>
+                {% if a.check %}
+                <td>checked</td>
+                <td><a href="{% url 'assignment:do_assignment' sub.subject_code a.pk %}">View Score</a><td></td>
+                {% else %}
+                <td>available</td>
+                <td><a href="{% url 'assignment:do_assignment' sub.subject_code a.pk %}">DO</a><td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            <!-- <tr>
                 <td>204111 Assignment #2</td>
                 <td>20-03-2019</td>
                 <td>21-04-2019</td>
@@ -38,8 +44,6 @@
                 <td>don't subbmited</td>
                 <td>Answer Assignment</td>
             </tr> -->
-            {% endfor %}
         </table>
     </div>
-
     {% endblock %}
