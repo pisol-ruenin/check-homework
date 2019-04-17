@@ -1,5 +1,41 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block body %}
+<div class="container">
+        Insert Name
+        <input type="text">
 
+        <div id="superdiv"></div>
+        <div class="dropdown">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                  Add Question
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" onclick="create_a()">Choice</a>
+                  <a class="dropdown-item" onclick="create_b()">Macthing</a>
+                  <a class="dropdown-item" onclick="create_c()">Subjective</a>
+                </div>
+              </div>
+        
+</div>
+
+
+<script>
+    function create_a(){
+        var div = document.createElement("div");
+        div.innerHTML = "a";
+        div.classList.add("box")
+        document.getElementById("superdiv").appendChild(div);
+    }
+    function create_b(){
+        var div = document.createElement("div");
+        div.innerHTML = "b";
+        document.getElementById("superdiv").appendChild(div);
+    }
+    function create_c(){
+        var div = document.createElement("div");
+        div.innerHTML = "c";
+        document.getElementById("superdiv").appendChild(div);
+    }
+</script>
 {% endblock %}
