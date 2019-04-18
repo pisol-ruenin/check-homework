@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block body %}
+    <div class="container con-dashboard">
+        <h1>{{ assignment.0.subject.subject_code }}</h1>
+        <h2>{{ assignment.0.subject.name }}</h2>
+        <br>
+        <h4>Assignment List</h4>
+        <table class="table">
+            <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+            {% for a in assignment %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{a.name}}</td>
+                <td><a href={% url 'assignment:assignment_report' a.subject.subject_code a.pk %}><button class="btn btn-primary">View</button></a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endblock %}
