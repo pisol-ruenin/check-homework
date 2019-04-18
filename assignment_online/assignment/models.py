@@ -42,7 +42,6 @@ class Assignment(models.Model):
     end_date = models.DateField()
     name = models.CharField(max_length=50)
     publish = models.BooleanField(default=False)
-    check = models.BooleanField(default=False)
     score = models.FloatField()
 
     def __str__(self):
@@ -217,6 +216,7 @@ class StudentDoAssignment(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
     finish = models.BooleanField(default=False)
+    check = models.BooleanField(default=False)
 
     class Meta:
         unique_together = (("student","assignment"))

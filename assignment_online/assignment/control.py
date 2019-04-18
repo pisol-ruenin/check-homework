@@ -69,5 +69,4 @@ class MyCronJob(CronJobBase):
                 student_score.score = count * i.question.score/len(keywords)
                 student_score.save()
 
-        Assignment.objects.filter(end_date=now).update(check=True)
-        
+        StudentDoAssignment.objects.filter(assignment__end_date=now).update(True)
