@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block body %}
+<!-- {%  for q in questions %}
+<h3>{{q.topic}}</h3>
+{% endfor %} -->
+<div class="card" style="width: 95%">
+    <div class="card-body">
+        <h5 class="card-title">{{questions.0.topic}}</h5>
+       
+        <textarea class="form-control" name="" id="q1" cols="30" rows="10"></textarea>
+        <button class="btn btn-primary">submiit</button>
+    </div>
+    
+</div>
+
+{% endblock %} 

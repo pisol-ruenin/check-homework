@@ -17,6 +17,7 @@
                 <th>Action</th>
             </tr>
             {% for a in assignment %}
+            {% if a.publish %}
             <tr>
                 <td>{{ a.name }}</td>
                 <td>{{ a.start_date }}</td>
@@ -26,9 +27,10 @@
                 <td><a href="{% url 'assignment:do_assignment' sub.subject_code a.pk %}">View Score</a><td></td>
                 {% else %}
                 <td>available</td>
-                <td><a href="{% url 'assignment:do_assignment' sub.subject_code a.pk %}">DO</a><td>
+                <td><a href="{% url 'assignment:do_assignment' sub.subject_code a.pk %}">Do</a><td>
                 {% endif %}
             </tr>
+            {% endif %}
             {% endfor %}
             <!-- <tr>
                 <td>204111 Assignment #2</td>

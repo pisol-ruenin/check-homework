@@ -22,7 +22,10 @@ urlpatterns = [
     # url(r'^signup$', views.signup, name='signup')
     path('subject/',views.StudentDashboard.as_view(), name='student_dashboard'),
     path('subject/<int:subject>/',views.StudentSubject.as_view(), name='student_subject'),
-    path('subject/<int:subject>/<int:id>',views.DoAssignment.as_view(), name='do_assignment')
+    path('subject/<int:subject>/<int:id>/',views.DoAssignment.as_view(), name='do_assignment'),
+    path('subject1/<int:subject>/<int:id>/<int:no>/',views.DoChoice.as_view(), name='choice'),
+    path('subject2/<int:subject>/<int:id>/<int:no>/',views.DoMatching.as_view(), name='matching'),
+    path('subject3/<int:subject>/<int:id>/<int:no>/',views.DoOpenended.as_view(), name='openended'),
 
 
 ]
