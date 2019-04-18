@@ -174,9 +174,14 @@ class ChartScoreAssignment(APIView):
             item[floor(score)] += 1
         labels = [i for i in range(int(a.score)+1)]
         default_items = item
+        did = len([i for i in do if i.finish==True])
+        notdid = len(list(do))-did
+        print(did,notdid)
         data = {
             "labels":labels,
             "default":default_items,
+            "did":did,
+            "notdid":notdid,
         }
         return Response(data)
 
@@ -185,7 +190,7 @@ class SubjectReport(generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(SubjectReport, self).get_context_data(**kwargs)
-        context['subject'] = self.kwargs['subject']
+        context['subject'] = Subject.objects.get(subject_code=self.kwargs['subject'])
         do = StudentDoAssignment.objects.filter(assignment__subject__subject_code=self.kwargs['subject'])
         all_score=list()
         for i in do:
@@ -204,7 +209,7 @@ class SubjectReport(generic.TemplateView):
         context['std'] = all_score.std()
         context['max'] = all_score.max()
         context['min'] = all_score.min()
-        
+
         return context
 
 class ChartScoreSubject(APIView):

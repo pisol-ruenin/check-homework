@@ -1,7 +1,8 @@
-{% extends "base.html" %}
 {% load staticfiles %}
 {% block body %}
-<form class="controls" method="post">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<form class="form-group" method="post">
+    <center>
         {% csrf_token %}
         {% for field in form %}
             {{ field.label_tag }}
@@ -9,7 +10,8 @@
             {{ field.errors }}
         {% endfor %}
         <br>
-        <button class="button" type="submit">Submit</button>
-        <button class="button" type="reset">Reset</button>
+        <button class="btn btn-primary" type="submit">Edit</button>
+        <button class="btn btn-primary" type="reset">Reset</button>
+    </center>
 </form>
 {% endblock %}
