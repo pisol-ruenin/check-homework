@@ -36,6 +36,7 @@ TIME_ZONE = 'Asia/Bangkok'
 INSTALLED_APPS = [
     'rest_framework',
     'django_cron',
+    'widget_tweaks',
     'member.apps.MemberConfig',
     'assignment.apps.AssignmentConfig',
     'django.contrib.admin',

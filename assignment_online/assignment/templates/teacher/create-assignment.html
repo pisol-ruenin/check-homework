@@ -1,41 +1,18 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load widget_tweaks %}
 {% block body %}
 <div class="container">
-        Insert Name
-        <input type="text">
-
-        <div id="superdiv"></div>
-        <div class="dropdown">
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                  Add Question
-                </button>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" onclick="create_a()">Choice</a>
-                  <a class="dropdown-item" onclick="create_b()">Macthing</a>
-                  <a class="dropdown-item" onclick="create_c()">Subjective</a>
-                </div>
-              </div>
-        
+  <form method="post">
+    {% csrf_token %}
+     {%for field in form %}
+      {{ field.label_tag }}
+      {{ field|add_class:"label input form-control" }}
+      {{ field.errors }}
+    {% endfor %}
+    <button type="submit">Submit</button>
+  </form>
+  <h2>{{ text }}</h2>
 </div>
 
-
-<script>
-    function create_a(){
-        var div = document.createElement("div");
-        div.innerHTML = "a";
-        div.classList.add("box")
-        document.getElementById("superdiv").appendChild(div);
-    }
-    function create_b(){
-        var div = document.createElement("div");
-        div.innerHTML = "b";
-        document.getElementById("superdiv").appendChild(div);
-    }
-    function create_c(){
-        var div = document.createElement("div");
-        div.innerHTML = "c";
-        document.getElementById("superdiv").appendChild(div);
-    }
-</script>
 {% endblock %}
