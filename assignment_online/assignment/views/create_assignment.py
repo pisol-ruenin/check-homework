@@ -46,3 +46,12 @@ class create_question(TemplateView):
             
         args = {'form':form,'text':text}
         return render(request, self.template_name,args)
+
+class asm_dashboard(TemplateView):
+    template_name = 'teacher/assignment_dashboard.html'
+
+    def get(self,request):
+        asm_post = Assignment.objects.all()
+
+        args = {'asm_post':asm_post}
+        return render(request, self.template_name,args)

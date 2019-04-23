@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+{% block body %}
+<div class="container"><br>
+  <br>
+    
+  <h1>Assignment Dashboard </h1>
+
+  {% for asm_post in Assignment %}
+    { asm_post.subject }
+    { asm_post.name }
+  {% endfor %}
+  <!-- <h2>{{ text }}</h2> -->
+</div>
+
+{% endblock %}

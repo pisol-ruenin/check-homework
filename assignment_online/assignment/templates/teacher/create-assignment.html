@@ -4,6 +4,7 @@
 {% block body %}
 <div class="container"><br>
   <h1>Create Assignment</h1>
+  <p>วันที่ ให้กรอก ปี(ค.ศ.)/เดือน/วัน</p>
   <form method="post">
     {% csrf_token %}
      {%for field in form %}
