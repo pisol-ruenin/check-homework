@@ -60,7 +60,7 @@ class Question(models.Model):
     no = models.IntegerField()
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
     qtype = models.CharField(max_length=1, choices=question_type)
-    topic = models.CharField(max_length=50)
+    topic = models.CharField(max_length=1000)
     score = models.FloatField()
 
     class Meta:
@@ -94,11 +94,8 @@ class ChoiceAnswer(models.Model):
 
 
 class OpenEndedKeywords(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    keyword = models.CharField(max_length=20)
-
-    class Meta:
-        unique_together = (("question", "keyword"))
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, primary_key=True)
+    keyword = models.CharField(max_length=1000)
 
     def __str__(self):
         return self.question.topic + '-' + self.keyword
@@ -154,7 +151,7 @@ class StudentChoiceAnswer(models.Model):
 
 class StudentOpenEndedAnswer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    answer = models.CharField(max_length=100)
+    answer = models.CharField(max_length=1000)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
 
     class Meta:

@@ -1,14 +1,54 @@
 from django_cron import CronJobBase, Schedule
 from .models import *
 from pythainlp import word_tokenize
+from pythainlp.corpus import stopwords
+from pythainlp.corpus import wordnet
+from nltk.stem.porter import PorterStemmer
+from nltk.corpus import words
+from stop_words import get_stop_words
 import datetime
+import re
+import string
+import nltk
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
+def clean_msg(msg): 
+        for c in string.punctuation:
+            msg = re.sub(r'\{}'.format(c),'',msg)
+        msg = ' '.join(msg.split())
+        return msg
+
+def split_word(text):  
+    th_stop = tuple(stopwords.words('thai'))
+    en_stop = tuple(get_stop_words('en'))
+    p_stemmer = PorterStemmer()
+    tokens = word_tokenize(text)
+    tokens = [i for i in tokens if not i in th_stop and not i in en_stop]
+
+    tokens = [p_stemmer.stem(i) for i in tokens]
+
+    tokens_temp=[]
+    for i in tokens:
+        w_syn = wordnet.synsets(i)
+        if (len(w_syn)>0) and (len(w_syn[0].lemma_names('tha'))>0):
+            tokens_temp.append(w_syn[0].lemma_names('tha')[0])
+        else:
+            tokens_temp.append(i)
+    
+    tokens = tokens_temp
+    
+    tokens = [i for i in tokens if not i.isnumeric()]
+    tokens = [i for i in tokens if not ' ' in i]
+
+    return tokens
 
 class MyCronJob(CronJobBase):
     RUN_AT_TIMES = ['01:00']
 
     schedule = Schedule(run_at_times=RUN_AT_TIMES)
-    code = 'assignment.my_cron_job'    # a unique code
+    code = 'assignment.my_cron_job'    # a unique code    
+
 
     def do(self):
         print("a")
@@ -31,7 +71,7 @@ class MyCronJob(CronJobBase):
                     student_score.score = i.question.score
                 else:
                     student_score.score = 0
-                # student_score.save()
+                student_score.save()
 
         # matching
         print("b")
@@ -57,7 +97,7 @@ class MyCronJob(CronJobBase):
                     student_score.score = i.question.score / len_choice
                 else:
                     student_score.score = 0
-                # student_score.save()
+                student_score.save()
 
         # open ended
         open_answer = StudentOpenEndedAnswer.objects.filter(
@@ -67,18 +107,30 @@ class MyCronJob(CronJobBase):
 
         if len(open_answer):
             for i in open_answer:
-                keywords = OpenEndedKeywords.objects.filter(
+                keywords = OpenEndedKeywords.objects.get(
                     question=i.question)
                 print(keywords)
-                token = word_tokenize(i.answer)
-                count = 0
-                for j in keywords:
-                    if j.keyword in token:
-                        count += 1
+
+                word1 = split_word(clean_msg(keywords.keyword))
+                word2 = split_word(clean_msg(i.answer))
+
+                token_list = [word1,word2]
+                tokens_list_j = [','.join(tkn) for tkn in token_list]
+                tlidf =TfidfVectorizer(analyzer=lambda x:x.split(','))
+                m = tlidf.fit_transform(tokens_list_j)
+                cos_sim=cosine_similarity(m[0], m)
+                print(cos_sim[0][1])
+                if cos_sim[0][1]<0.4:
+                    w = 0
+                elif cos_sim[0][1]<0.6:
+                    w = 0.5
+                else:
+                    w = 1
+
                 student_score = StudentOpenEndedScore()
                 student_score.student = i.student
                 student_score.question = i.question
-                student_score.score = count * i.question.score/len(keywords)
+                student_score.score = i.question.score*w
                 student_score.save()
 
-        StudentDoAssignment.objects.filter(assignment__end_date=now).update(True)
+        finish = StudentDoAssignment.objects.filter(assignment__end_date=now).update(check=True)
