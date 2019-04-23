@@ -30,4 +30,5 @@ urlpatterns = [
          views.EditMatchingScore.as_view(), name='edit_matching_score'),
     path('score/<int:pk>/edit_open/',
          views.EditOpenEndedScore.as_view(), name='edit_open_score'),
+    path('finish/', views.EditFinish.as_view(), name='edit_complete')
 ]

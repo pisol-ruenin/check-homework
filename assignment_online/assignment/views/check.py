@@ -264,14 +264,20 @@ class EditChoiceScore(generic.UpdateView):
     model = StudentChoiceScore
     template_name = 'teacher/edit_score.html'
     fields = ['score']
+    success_url = '/assignment/finish/'
 
 class EditMatchingScore(generic.UpdateView):
     model = StudentMatchingScore
     template_name = 'teacher/edit_score.html'
     fields = ['score']
+    success_url = '/assignment/finish/'
 
 class EditOpenEndedScore(generic.UpdateView):
     model = StudentOpenEndedScore
     template_name = 'teacher/edit_score.html'
     fields = ['score']
+    success_url = '/assignment/finish/'
+
+class EditFinish(generic.TemplateView):
+    template_name = 'teacher/finish.html'
     
