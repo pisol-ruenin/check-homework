@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block body %}
+
     <div class="container con-dashboard">
-        <h1>204111</h1>
-        <h2>Introduction Computer Science</h2>
+        <h1>{{ sub.subject_code }}</h1>
+        <h2>{{ sub.name }} </h2>
         <br>
+
         <h4>Assignment List</h4>
         <table class="table">
             <tr>
@@ -14,27 +16,30 @@
                 <th>Status</th>
                 <th>Action</th>
             </tr>
-            <tr>
-                <td>204111 Assignment #1</td>
-                <td>07-01-2019</td>
-                <td>15-01-2019</td>
-                <td>checked</td>
-                <td>View Score</td>
-            </tr>
-            <tr>
-                <td>204111 Assignment #2</td>
-                <td>20-03-2019</td>
-                <td>21-04-2019</td>
-                <td>subbmited</td>
-                <td>Edit Answer</td>
-            </tr>
-            <tr>
-                <td>204111 Assignment #3</td>
-                <td>20-04-2019</td>
-                <td>30-04-2019</td>
-                <td>don't subbmited</td>
-                <td>Answer Assignment</td>
-            </tr>
+                {% for a in result %}
+                    {% if a.0.publish %}         
+                    <tr>
+                        <td>{{a.0.name }}</td>
+                        <td>{{a.0.start_date}}</td>
+                        <td>{{a.0.end_date}}</td>
+                        {% if a.1.finish %}
+                            {% if a.1.check %}
+                                <td>checked</td>
+                                <td><a href="{% url 'assignment:do_assignment' sub.subject_code a.0.pk %}">View Score</a><td></td>
+                            {% else %}
+                                <td>available</td>
+                                <td><a href="{% url 'assignment:do_assignment' sub.subject_code a.0.pk %}">Edit</a><td>
+                            {% endif %}
+                        {% else %}
+                            <td>available</td>
+                            <td><a href="{% url 'assignment:do_assignment' sub.subject_code a.0.pk %}">Do</a><td>
+                        {% endif %}
+                    </tr>
+                    {% endif %}
+                   
+
+                   
+                {% endfor %}
         </table>
     </div>
     {% endblock %}

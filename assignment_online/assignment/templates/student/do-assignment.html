@@ -1,7 +1,22 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block body %}
-    <div class="container con-dashboard">
+{%  for q in questions %}
+   
+    {% ifequal q.qtype 'C' %}
+        <a href="{% url 'assignment:choice' q.assignment.subject q.assignment.pk q.no %}">{{ q.no }}</a> 
+    {% endifequal %}
+    {% ifequal q.qtype 'M' %}
+        <a href="{% url 'assignment:matching' q.assignment.subject q.assignment.pk q.no %}">{{ q.no }}</a> 
+    {% endifequal %}
+    {% ifequal q.qtype 'O' %}
+        <a href="{% url 'assignment:openended' q.assignment.subject q.assignment.pk q.no %}">{{ q.no }}</a> 
+    {% endifequal %}
+  
+
+{% endfor %}
+
+    <!-- <div class="container con-dashboard">
         <div class="form-group">
             <div class="card" style="width: 95%">
                 <div class="card-body">
@@ -14,7 +29,7 @@
             <div class="card" style="width: 95%">
                 <div class="card-body">
                     <h5 class="card-title">2.ข้อไหนถูกต้อง</h5>
-                    <!-- <p class="card-text">hint: โครงสร้าง ลักษณะภาษา ประสิทธิภาพ ฯลฯ</p> -->
+                    <p class="card-text">hint: โครงสร้าง ลักษณะภาษา ประสิทธิภาพ ฯลฯ</p>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="exampleRadios" id="q2a" value="option1"
                             checked>
@@ -62,5 +77,5 @@
             <button class="btn btn-primary">submiit</button>
         </div>
         <br>
-    </div>
-    {% endblock %}
+    </div> --> 
+{% endblock %}

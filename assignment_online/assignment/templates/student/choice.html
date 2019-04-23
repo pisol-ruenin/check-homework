@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block body %}
+<!-- <form class="controls" method="post">
+{% csrf_token %}  -->
+<div class="card" style="width: 100%">
+    <div class="card-body">
+        <h5 class="card-title">{{ choice.0.question.topic}}</h5>
+        {% for c in choice %}
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="q2a" value="option1">
+            <label class="form-check-label" for="q2a">
+                {{c.txt}}
+            </label>
+
+        </div>
+        {% endfor %}
+        <button class="btn btn-primary">submiit</button>
+    </div>
+</div>
+<!-- </form> -->
+{% endblock %} 

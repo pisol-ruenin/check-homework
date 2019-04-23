@@ -1,19 +1,27 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block body %}
+
+<!-- {% if mem.student.code  == "590510001" %}
+<h1>{{mem.student.code }}</h1>
+{% endif %}  -->
+
     <div class="container con-dashboard">
         <!-- ถ้าหากขึ้นแถวใหม่ ให้เปิดด้วย div class row-->
         <div class="row">
+            {% for s in subject %}
             <div class="col-md-4">
                 <div class="card" style="width: 95%">
                     <div class="card-body">
-                        <h5 class="card-title">204111</h5>
-                        <p class="card-text">Introduction CS</p>
-                        <a href="#" class="btn btn-primary">View Subject</a>
+                        <h5 class="card-title">{{ s.subject.subject_code }}</h5>
+                        <p class="card-text">{{ s.subject.name }}</p>
+                        
+                        <a href="{% url 'assignment:student_subject' s.subject.subject_code %}" class="btn btn-primary">View Subject</a>
                     </div>
                 </div>
             </div>
-            <img src="{% static 'img/img.png'%}" alt="">
+            {% endfor %}
+            <!-- <img src="{% static 'img/img.png'%}" alt="">
             <div class="col-md-4">
                 <div class="card" style="width: 95%">
                     <div class="card-body">
@@ -32,12 +40,16 @@
                         <a href="#" class="btn btn-primary">View Subject</a>
                     </div>
                 </div>
-            </div>
+            </div> -->
+             
         </div>
+  
+        
         <!-- end card row -->
         <br>
+        
         <!-- ถ้าหากขึ้นแถวใหม่ ให้เปิดด้วย div class row-->
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-md-4">
                 <div class="card" style="width: 95%">
                     <div class="card-body">
@@ -57,8 +69,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- end card row -->
 
     </div>
+   
     {% endblock %}
