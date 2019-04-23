@@ -1,16 +1,18 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block body %}
+
+
 {%  for q in questions %}
-   
-    {% ifequal q.qtype 'C' %}
-        <a href="{% url 'assignment:choice' q.assignment.subject q.assignment.pk q.no %}">{{ q.no }}</a> 
+
+    <br>{% ifequal q.qtype 'C' %}
+        <a href="{% url 'assignment:choice' q.assignment.subject q.assignment.pk q.no %}" style="margin-left:20px;">{{ q.no }}</a> 
     {% endifequal %}
     {% ifequal q.qtype 'M' %}
-        <a href="{% url 'assignment:matching' q.assignment.subject q.assignment.pk q.no %}">{{ q.no }}</a> 
+        <a href="{% url 'assignment:matching' q.assignment.subject q.assignment.pk q.no %}" style="margin-left:20px;">{{ q.no }}</a> 
     {% endifequal %}
     {% ifequal q.qtype 'O' %}
-        <a href="{% url 'assignment:openended' q.assignment.subject q.assignment.pk q.no %}">{{ q.no }}</a> 
+        <a href="{% url 'assignment:openended' q.assignment.subject q.assignment.pk q.no %}" style="margin-left:20px;">{{ q.no }}</a> 
     {% endifequal %}
   
 
@@ -24,7 +26,7 @@
                     <p class="card-text">hint: โครงสร้าง ลักษณะภาษา ประสิทธิภาพ ฯลฯ</p>
                     <textarea class="form-control" name="" id="q1" cols="30" rows="10"></textarea>
                 </div>
-            </div>
+            <div class="card" style="width: 95%">
             <br>
             <div class="card" style="width: 95%">
                 <div class="card-body">
