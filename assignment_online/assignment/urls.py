@@ -3,9 +3,7 @@ from django.urls import path
 from . import views
 app_name = "assignment"
 urlpatterns = [
-    url(r'^student_dashboard$', views.student_dashboard, name='student_dashboard'),
-    url(r'^student_subject$', views.student_subject, name='student_subject'),
-    url(r'^do_assignment$', views.do_assignment, name='do_assignment'),
+
     url(r'^create_assignment$', views.create_assignment, name='create_assignment'),
     url(r'^teacher_dashboard$', views.teacher_dashboard, name='teacher_dashboard'),
     path('<int:subject>/score/<int:assignment>/',
@@ -30,5 +28,17 @@ urlpatterns = [
          views.EditMatchingScore.as_view(), name='edit_matching_score'),
     path('score/<int:pk>/edit_open/',
          views.EditOpenEndedScore.as_view(), name='edit_open_score'),
+<<<<<<< HEAD
     path('finish/', views.EditFinish.as_view(), name='edit_complete')
+=======
+     
+    path('subject/',views.StudentDashboard.as_view(), name='student_dashboard'),
+    path('subject/<int:subject>/',views.StudentSubject.as_view(), name='student_subject'),
+    path('subject/<int:subject>/<int:id>/',views.DoAssignment.as_view(), name='do_assignment'),
+#     path('subject/<int:subject>/<int:id>/',views.EditDoAssignment.as_view(), name='edit_do_assignment'),
+    path('subject1/<int:subject>/<int:id>/<int:no>/',views.DoChoice.as_view(), name='choice'),
+    path('subject2/<int:subject>/<int:id>/<int:no>/',views.DoMatching.as_view(), name='matching'),
+    path('subject3/<int:subject>/<int:id>/<int:no>/',views.DoOpenended.as_view(), name='openended'),
+#     path('subject3/<int:subject>/<int:id>/<int:no>/',views.EditOpenended.as_view(), name='editopenended'),
+>>>>>>> ccea124ca8e94e1a18900bb7715f6154e3a1af49
 ]

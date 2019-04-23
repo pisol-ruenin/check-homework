@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block body %}
+<div class="card" style="width: 100%">
+    <div class="card-body">
+        <h5 class="card-title">{{question.topic}}</h5>
+        {% for m in result %}
+        <div class="row">
+            <div class="col-sm-1"><input class="form-control" name="" id="q3a"></div>
+            <div class="col-sm-5">{{ m.0.no }}. {{ m.0.txt }}</div>
+            <div class="col-sm-6">{{ m.1.no }}. {{ m.1.txt }}</div>
+        </div><br>
+        {% endfor %}
+            <div><button class="btn btn-primary">submiit</button></div>
+    </div>
+    
+</div>
+  
+{% endblock %}

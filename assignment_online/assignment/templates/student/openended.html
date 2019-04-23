@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block body %}
+<!-- {%  for q in questions %}
+<h3>{{q.topic}}</h3>
+{% endfor %} -->
+<form class="controls" method="post">
+    {% csrf_token %}  
+    <div class="card" style="width: 100%">
+        <div class="card-body">
+            <h5 class="card-title">{{questions.0.topic}}</h5>  
+            {% for field in form %}
+                {{ field }}
+                {{ field.errors }}
+            {% endfor %}
+            <br>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+        
+    </div>
+</form>
+
+{% endblock %} 
