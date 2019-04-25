@@ -81,6 +81,7 @@ class StudentAssignmentScore(generic.TemplateView):
                     answer = StudentOpenEndedAnswer.objects.get(question=i, student__code=self.kwargs['std_code'])
                     s = StudentOpenEndedScore.objects.get(question=i,student__code=self.kwargs['std_code'])
                 real_answer = OpenEndedKeywords.objects.filter(question=i)
+                # score = StudentChoiceAnswer.objects.get(question=i)
                 result.append([i,answer,real_answer,s])
             elif i.qtype == 'C':
                 answer = None

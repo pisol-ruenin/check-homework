@@ -19,3 +19,7 @@ def get_answer(list,index):
 @register.filter
 def get_pk(list,index):
     return list[index].pk
+
+@register.filter
+def get_score(list,index):
+    return list[index].score

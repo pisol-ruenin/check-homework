@@ -10,13 +10,13 @@
         {% ifequal q.0.qtype 'O' %}
         <div class="card" style="width: 95%">
             <div class="card-body">
-                <h5 class="card-title">{{ q.0.no }}.{{ q.0.topic }} {% ifnotequal q.3 0 %} <button
+                <h5 class="card-title">{{ q.0.no }}.{{ q.0.topic }} Score: {{q.3.score}} {% ifnotequal q.3 0 %} <button
                         class="btn btn-primary"
                         onclick="window.open('{% url 'assignment:edit_open_score' q.3.pk %}','popUpWindow','height=200,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');">Edit
                         Score</button>{% endifnotequal %}</h5>
                 <textarea class="form-control" name="" id="q1" cols="30" rows="10"
                     disabled>{{ q.1.answer }}</textarea><br>
-                <div class="alert alert-success">Answer : {% for a in q.2 %}{{ a.keyword }}, {% endfor %}</div>
+                <div class="alert alert-success">Answer : {% for a in q.2 %}{{ a.keyword }} {% endfor %}</div>
             </div>
         </div>
 
@@ -25,7 +25,7 @@
         {% ifequal q.0.qtype 'C' %}
         <div class="card" style="width: 95%">
             <div class="card-body">
-                <h5 class="card-title">{{ q.0.no }}.{{ q.0.topic }} {% ifnotequal q.4 0 %}<button
+                <h5 class="card-title">{{ q.0.no }}.{{ q.0.topic }} Score: {{ q.4.score }} {% ifnotequal q.4 0 %}<button
                         class="btn btn-primary"
                         onclick="window.open('{% url 'assignment:edit_choice_score' q.4.pk %}','popUpWindow','height=200,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');">Edit
                         Score</button>{% endifnotequal %}</h5>
@@ -55,7 +55,7 @@
                     <div class="col-sm-1"><input class="form-control" name="" id="q3a"
                             value={{ q.1|get_answer:forloop.counter0 }} disabled></div>
                     <div class="col-sm-5">{{ forloop.counter }}. {{ q.2|get_at_index:forloop.counter0 }}</div>
-                    <div class="col-sm-6">{{ forloop.counter }}. {{ q.3|get_at_index:forloop.counter0 }}
+                    <div class="col-sm-6">{{ forloop.counter }}. {{ q.3|get_at_index:forloop.counter0 }} Score: {{ q.5|get_score:forloop.counter0 }}
                         {% ifnotequal q.5 0 %}<button class="btn btn-primary"
                             onclick="window.open('{% url 'assignment:edit_matching_score' q.5|get_pk:forloop.counter0 %}','popUpWindow','height=200,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');">Edit
                             Score</button>{% endifnotequal %}</div>

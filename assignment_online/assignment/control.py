@@ -100,6 +100,7 @@ class MyCronJob(CronJobBase):
                 student_score.save()
 
         # open ended
+        print('c')
         open_answer = StudentOpenEndedAnswer.objects.filter(
             question__assignment__end_date=now)
 
